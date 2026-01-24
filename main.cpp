@@ -67,13 +67,14 @@ int KeyDouble(double const x) {
 double ValueDouble(const double x) {return x;}
 
 // str
-char KeyStr(string const& x) {return x[0];}
-int ValueStr(string const& x) {
+char KeyStr(const string x) {return x[0];}
+
+int ValueStr(const string x) {
     return static_cast<int>(x.size());
 }
 
 template<typename Key, typename Elem, typename Sum>
-void Print(GroupInfo<Key, Elem, Sum> g) {
+void print(const GroupInfo<Key, Elem, Sum>& g) {
     cout
     << "Key: " << g.key << endl
     << "Count: " << g.count << endl
@@ -85,11 +86,19 @@ void Print(GroupInfo<Key, Elem, Sum> g) {
 
 int main() {
     const int intArr[] = {1, 11, 21, 31, 1, 11};
-    constexpr size_t IntN = size(intArr);
-    const auto IntGroup = GroupStats(intArr, IntN, KeyInt, ValueInt);
+    const auto IntGroup = GroupStats(intArr, size(intArr), KeyInt, ValueInt);
     for (const auto & i : IntGroup) {
-        Print(i);
+        print(i);
     }
-
+    const double doubleArr[] = {-1, -4.3, 0, 0.2, 4.6234, 10.333};
+    const auto doubleGroup = GroupStats(doubleArr, size(doubleArr), KeyDouble, ValueDouble);
+    for (const auto & i: doubleGroup) {
+        print(i);
+    }
+    string strArr[] = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    const auto stringGroup = GroupStats(strArr, size(strArr), KeyStr, ValueStr);
+    for (const auto & i : stringGroup) {
+        print(i);
+    }
     return 0;
 }
